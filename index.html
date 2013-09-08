@@ -153,7 +153,16 @@ div {
 		$.get('/get_feedback_list.php', {
 			onComplete: function(data)
 			{
-				
+				// Load a UL-list with the result(json) from the AJAX:
+				// ( This function is in-complete and not tested. )
+				var ul_list = document.createElement('ul');
+				for(i=0; i<data.length; i++)
+				{
+					var li_item = document.createElement('li');
+					li_item.innerHTML(data[i]);
+					document.appendChild(li_item);
+				}
+				document.getElementById('feedback_selection').innerHTML( ul_list );
 			} 
 		});
 	}
@@ -179,7 +188,7 @@ div {
 	<!-- VIEW: START --------------------------------------- -->
 	<div id="view__start" class="view">
 		<button id="btn_child" class="btn" href="#" onclick="show_view('take_picture'); return false;" >KID</button>
-		<button id="btn_grandma" class="btn">GRANDMA</button>
+		<button id="btn_grandma" class="btn" href="#" onclick="show_view('givefeedback_start'); return false;">GRANDMA</button>
 	</div>
 	
 	<!-- VIEW: TAKE PICTURE --------------------------------------- -->
