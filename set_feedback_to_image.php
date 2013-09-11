@@ -21,7 +21,7 @@
 	
 	// OK .. GO !	
 	$list = Array();	
-	$sql = "UPDATE pictures SET feedback = '{$text}' AND datetime_feedback = '{$dateTime}' WHERE location like '%{$image}'"; // SQL 
+	$sql = "UPDATE pictures SET feedback = '{$text}', datetime_feedback = '{$dateTime}' WHERE location like '%{$image}'"; // SQL 
 	$rs = ejecutarConsulta($sql);
 	echo json_encode(array('success' => 'true'));
 
