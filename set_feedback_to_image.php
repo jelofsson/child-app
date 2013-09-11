@@ -15,10 +15,12 @@
 	{
 		$text = (isset($_POST['text'])) ? $_POST['text'] : $_GET['text'];
 		$image = (isset($_POST['image'])) ? $_POST['image'] : $_GET['image'];
+		/*
 		if(substr($image, 0, strlen($image_folder)) != $image_folder) // Check that we have image folder in string..
 		{
 			$image = $image_folder . $image; 
 		}
+		*/
 	}
 	
 	// OK .. GO !	
