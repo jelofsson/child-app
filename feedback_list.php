@@ -18,7 +18,7 @@
 	
 	// OK .. GO !	
 	$list = Array();
-	$sql = "SELECT * FROM feedback_questions WHERE type='$type'"; // SQL 
+	$sql = "SELECT * FROM feedback_questions WHERE type='$type' ORDER BY RAND()"; // SQL 
 	$rs = ejecutarConsulta($sql);
 	while($reg = mysql_fetch_assoc($rs))
 	{
