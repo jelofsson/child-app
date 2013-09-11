@@ -40,6 +40,7 @@
     <div id="view__take_picture" class="view">
        <button onclick="captureImage();">Capture Photo</button> <br>
        <button onclick="getImage();">Upload a Photo</button><br>
+		 <button onclick="viewImages(); show_view('my_images'); return false;">View my photos</button><br>
        <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
        <img style="display:none;" id="largeImage" src="" />
     </div>
@@ -77,6 +78,10 @@
         		Thank you for encouraging this kid!
         </div>
     </div>
+   
+    <!-- VIEW:  FEEDBACK DONE. --------------------------------------- -->
+    <div id="view__my_images" class="view">
+    </div>   
    
  </body>
 </html>
