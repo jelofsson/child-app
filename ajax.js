@@ -91,6 +91,22 @@ function get_feedback_list(type)
 		}
 	});
 }
+// SAVE FEEDBACK TO LIST:
+function set_feedback_to_image(image,text)
+{
+	$('div#waiting').html("<img src ='images/ajax.gif' />");
+	$.post("http://puertosur.com.ar/Martin/HI-kidsapp/set_feedback_to_image.php", { image: image, text: text }).done(function(data) 
+	{
+		if(typeof data.success == "true")
+		{
+			$('div#waiting').html("");
+		}
+		else
+		{
+			$('div#waiting').html("");
+		}
+	});
+}
 	
 
 /*tualizarBuscador(categoria, pos) {

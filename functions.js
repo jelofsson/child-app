@@ -103,8 +103,31 @@ function select_feedback(e)
 	fbType = fbType + 1;
 	fbText = fbText + $(e).html()+' ';
 	$('div#feedback_text').html(fbText + '..');
-	get_feedback_list( fbType );
+	if(fbType<4)
+	{
+		get_feedback_list( fbType );
+		$('button#clear_feedback').show();
+	}
+	else
+	{
+		$('button#give_feedback').show();
+	}
 };
+// clear feedback:
+function clear_feedback()
+{
+	fbType = 0;
+	fbText = '';
+	get_feedback_list( fbType );
+	$('div#feedback_text').html('');
+	$('button#clear_feedback').hide();
+	$('button#give_feedback').hide();
+}
+// saving feedback:
+function save_feedback()
+{
+	set_feedback_to_image(imageFeedback,fbText);
+}
 
 // <-----------------------OTHERS------------------------>
 function readCookie(name) 
