@@ -1,231 +1,74 @@
-<!--
-div {
- border-radius: 5px;
-}
-
-#header {
- height: 50px;
- background-color: #F38630;
- margin-bottom: 10px;
- position: fixed; //deja fijo el header
- z-index: 1; //esta por arriva de todo
-}
-
-.left {
- height: 300px;
- width: 150px;
- background-color: #A7DBD8;
- float: left;
- margin-bottom: 10px;
-}
-
-.right {
- height: 300px;
- width: 450px;
- background-color: #E0E4CC;
- float: right;
- margin-bottom: 10px;
-}
-
-#footer {
- height: 50px;
- background-color: #69D2E7;
- clear: both; //se mueve abajo de todo lo q esta a la derecha o izquierda
-
-}
-!-->
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
- <head>
-   <title>Capture Photo</title>
+<head>
+    <title>App kids</title>
 
-    <style type="text/css">
- 		.view {
- 			height: 100%;
- 			width: 100%;
- 			margin: 0px;
- 			display: none;
- 			position: absolute;
- 			left: 0;
- 			top: 0;
- 		}
- 	</style>
-	<script type="text/javascript" charset="utf-8" src="jquery.js"></script>
-   <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-	<script type="text/javascript">
-   var pictureSource;   // picture source
-   var destinationType; // sets the format of returned value
+    <script type="text/javascript" charset="utf-8" src="jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="functions.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ajax.js"></script>
 
-   // Wait for device API libraries to load
-   //
-   document.addEventListener("deviceready",onDeviceReady,false);
+    <link rel="stylesheet" href="theme/style.css" />
 
-   // device APIs are available
-   //
-   function onDeviceReady() {
-       pictureSource=navigator.camera.PictureSourceType;
-       destinationType=navigator.camera.DestinationType;
-   }
+</head>
+<body>
 
-   // Called when a photo is successfully retrieved
-   //
-   function onPhotoDataSuccess(imageData) {
-     // Uncomment to view the base64-encoded image data
-     // console.log(imageData);
+    <!-- --------------------------------------------------------
+      -- APPLICATION VIEWS: 
+      -------------------------------------------------------- -->
 
-     // Get image handle
-     //
-     var smallImage = document.getElementById('smallImage');
+    <!-- VIEW: SIGN IN --------------------------------------- -->
+    <div id="view__signin" class="view">
+        <form method="" action="">
+            Usuario:<br/>
+            <input name="usuario" type="text" size="20" maxlength="20" id="usuario"/> 
+            <br/><br/>
+            Pass:<br/>
+            <input name="pass" type="password" size="12" maxlength="12" id="pass"/> 
+            <br/><br/>
+            <input type="button" value="Enviar" onclick="signin()"/>      
+        </form>
+        <div id="waiting"></div>
+    </div>
 
-     // Unhide image elements
-     //
-     smallImage.style.display = 'block';
+    <!-- VIEW: START --------------------------------------- -->
+    <div id="view__start" class="view">
+        <button id="btn_child" class="btn" href="#" onclick="show_view('take_picture'); return false;" >KID</button>
+        <button id="btn_grandma" class="btn" href="#" onclick="show_view('givefeedback_start'); return false;">GRANDMA</button>
+    </div>
+    <!-- VIEW: TAKE PICTURE --------------------------------------- -->
+    <div id="view__take_picture" class="view">
+       <button onclick="captureImage();">Capture Photo</button> <br>
+       <button onclick="getImage();">Upload a Photo</button><br>
+       <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+       <img style="display:none;" id="largeImage" src="" />
+    </div>
 
-     // Show the captured photo
-     // The inline CSS rules are used to resize the image
-     smallImage.src = "data:image/jpeg;base64," + imageData;
-     show_view('handle_picture');
-   }
+    <!-- VIEW: HANDLE PICTURE --------------------------------------- -->
+    <div id="view__handle_picture" class="view">
+        <button onclick="show_view('send_picture'); save_picture_to_db(); return false;">Send picture</button>
+        <button>Take new picture</button>
 
-   // Called when a photo is successfully retrieved
-   //
-   function onPhotoURISuccess(imageURI) {
-     // Uncomment to view the image file URI
-     // console.log(imageURI);
+        <img style="display:none;" id="largeImage" src="" />
+    </div>
 
-     // Get image handle
-     //
-     var largeImage = document.getElementById('largeImage');
-
-     // Unhide image elements
-     //
-     largeImage.style.display = 'block';
-
-     // Show the captured photo
-     // The inline CSS rules are used to resize the image
-     //
-     largeImage.src = imageURI;
-     show_view('handle_picture');
-   }
-
-   // A button will call this function
-   //
-   function capturePhoto() {
-     // Take picture using device camera and retrieve image as base64-encoded string
-     navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-       destinationType: destinationType.DATA_URL });
-   }
-
-   // A button will call this function
-   //
-   function capturePhotoEdit() {
-     // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-     navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-       destinationType: destinationType.DATA_URL });
-   }
-
-   // A button will call this function
-   //
-   function getPhoto(source) {
-     // Retrieve image file location from specified source
-     navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-       destinationType: destinationType.FILE_URI,
-       sourceType: source });
-   }
-
-   // Called if something bad happens.
-   //
-   function onFail(message) {
-     alert('Failed because: ' + message);
-   }
-   // -------------------------------------------------------   
-   // JS (jQuery) code :
-   // -------------------------------------------------------
-   // Saving our picture (ajax):
-   function save_picture_to_db()
-   {
-   	// Todo ..call ajax..
-   }
+    <!-- VIEW: SEND PICTURE --------------------------------------- -->
+    <div id="view__send_picture" class="view">
+        <!-- TODO: Output save_picture_to_db() ajax-result! -->
+    </div>
    
-   // get feedback options/list (ajax):
-	function get_feedback_list(name)
-	{
-		$.get('/get_feedback_list.php', {
-			onComplete: function(data)
-			{
-				// Load a UL-list with the result(json) from the AJAX:
-				// ( This function is in-complete and not tested. )
-				var ul_list = document.createElement('ul');
-				for(i=0; i<data.length; i++)
-				{
-					var li_item = document.createElement('li');
-					li_item.innerHTML(data[i]);
-					document.appendChild(li_item);
-				}
-				document.getElementById('feedback_selection').innerHTML( ul_list );
-			} 
-		});
-	}
-   
-   // handling the different views:
-	function show_view(name)
-	{
-		$('.view').hide(); // Show the startup view.
-		$('#view__' + name).show(); // Show the startup view.
-	}
-   $(document).ready(function () {
-   	show_view('start'); // Show the startup view.
-	});
+    <!-- VIEW: GIVE FEEDBACK START --------------------------------------- -->
+    <div id="view__givefeedback_start" class="view">
+        <img id="image_feedback" src="" />
+        <button onclick="show_view('givefeedback_feedback'); return false;">Give instant feedback</button>
+    </div>
 
-   </script>
- </head>
- <body> 
-
-	<!-- --------------------------------------------------------
-	  -- APPLICATION VIEWS: 
-	  -------------------------------------------------------- -->
-	  
-	<!-- VIEW: START --------------------------------------- -->
-	<div id="view__start" class="view">
-		<button id="btn_child" class="btn" href="#" onclick="show_view('take_picture'); return false;" >KID</button>
-		<button id="btn_grandma" class="btn" href="#" onclick="show_view('givefeedback_start'); return false;">GRANDMA</button>
-	</div>
-	
-	<!-- VIEW: TAKE PICTURE --------------------------------------- -->
-	<div id="view__take_picture" class="view">
-	   <button onclick="capturePhoto();">Capture Photo</button> <br>
-	   <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-	   <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-	   <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-	   <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-	   <img style="display:none;" id="largeImage" src="" />
-	</div>
-	
-	<!-- VIEW: HANDLE PICTURE --------------------------------------- -->
-	<div id="view__handle_picture" class="view">
-		<button onclick="show_view('send_picture'); save_picture_to_db(); return false;">Send picture</button>
-		<button>Take new picture</button>
-		
-		<img style="display:none;" id="largeImage" src="" />
-	</div>
-	
-	<!-- VIEW: SEND PICTURE --------------------------------------- -->
-	<div id="view__send_picture" class="view">
-		<!-- TODO: Output save_picture_to_db() ajax-result! -->
-	</div>
-   
-	<!-- VIEW: GIVE FEEDBACK START --------------------------------------- -->
-	<div id="view__givefeedback_start" class="view">
-		<img id="image_feedback" src="" />
-		<button onclick="show_view('givefeedback_feedback'); return false;">Give instant feedback</button>
-	</div>
-	
-	<!-- VIEW: GIVE FEEDBACK (FEEDBACK) --------------------------------------- -->
-	<div id="view__givefeedback_start" class="view">
-		<div id="feedback_text"></div>
-		<div id="feedback_selection">
-		</div>
-	</div>
+    <!-- VIEW: GIVE FEEDBACK (FEEDBACK) --------------------------------------- -->
+    <div id="view__givefeedback_selection" class="view">
+        <div id="feedback_text"></div>
+        <div id="feedback_selection">
+        </div>
+    </div>
    
  </body>
 </html>
