@@ -82,20 +82,6 @@ function show_view(name)
     $('#view__' + name).show(); // Show the startup view.
 }
 
-// <-----------------ON APPLICATION LOADED--------------------->
-var usuario = readCookie('usuario');
-var pass = readCookie('pass');
-var status = readCookie('status');
-var fbType = 0;
-var fbText = "";
-$(document).ready(function () 
-{	
-	if(usuario != null && pass != null) signin(usuario, pass);
-	else show_view('givefeedback_selection'); // Show the startup view.
-	
-	// Initiate feedback..	
-	get_feedback_list( fbType );
-});
 
 // Feedback, selecting a feedback text-string:
 function select_feedback(e)
@@ -134,6 +120,55 @@ function save_feedback()
 	}
 }
 
+
+function viewImages()
+{
+	$.post("http://puertosur.com.ar/Martin/HI-kidsapp/set_feedback_to_image.php", { user: null }).done(function(data) 
+	{
+		$('div#view__my_images').html('');
+		if( data.success == "true" )
+		{
+			for(i in data.result)
+			{
+				div_item = document.createElement('div');
+				$(div_item).addClass('image_container');
+				
+				img_item = document.createElement('img');
+				$(img_item).addClass('image');			
+				$(img_item).attr('src', data.result[i].location);
+				div_item.appendChild(img_item);
+				
+				if(data.result[i].feedback.length > 0)
+				{
+					span_item = document.createElement('span');
+					$(span_item).html(data.result[i].feedback);
+					div_item.appendChild(span_item);
+					$(div_item).addClass('has_feedback');
+				}
+				$('div#view__my_images').append(div_item);
+			}
+		}
+		else
+		{
+			$('div#view__my_images').html(data.error);
+		}
+	});
+}
+
+// <-----------------ON APPLICATION LOADED--------------------->
+var usuario = readCookie('usuario');
+var pass = readCookie('pass');
+var status = readCookie('status');
+var fbType = 0;
+var fbText = "";
+$(document).ready(function () 
+{	
+	if(usuario != null && pass != null) signin(usuario, pass);
+	else show_view('signin'); // Show the startup view.
+	
+	// Initiate feedback..	
+	get_feedback_list( fbType );
+});
 // <-----------------------OTHERS------------------------>
 function readCookie(name) 
 {
