@@ -102,9 +102,10 @@ function select_feedback(e)
 {
 	fbType = fbType + 1;
 	fbText = fbText + $(e).html()+' ';
-	$('div#feedback_text').html(fbText + '..');
+	$('div#feedback_text').html(fbText);
 	if(fbType<4)
 	{
+		$('div#feedback_text').html(fbText + '..');
 		get_feedback_list( fbType );
 		$('button#clear_feedback').show();
 	}

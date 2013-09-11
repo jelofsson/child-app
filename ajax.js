@@ -85,6 +85,7 @@ function get_feedback_list(type)
 			$('div#waiting').html("");
 			$('div#feedback_selection').html( ul_list );
 			$('div#feedback_selection').css('visibility', 'visible');
+			return true;
 		}
 		else
 		{
@@ -104,11 +105,11 @@ function set_feedback_to_image(image,text)
 	{
 		if(typeof data.success == "true")
 		{
-			$('div#waiting').html("");
+			return true;
 		}
 		else
 		{
-			$('div#waiting').html("");
+			return false;
 		}
 	});
 }
