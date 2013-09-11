@@ -57,18 +57,25 @@
         <!-- TODO: Output save_picture_to_db() ajax-result! -->
     </div>
    
-    <!-- VIEW: GIVE FEEDBACK START --------------------------------------- -->
+    <!-- VIEW: FEEDBACK START --------------------------------------- -->
     <div id="view__givefeedback_start" class="view">
         <img id="image_feedback" src="" />
         <button onclick="show_view('givefeedback_feedback'); return false;">Give instant feedback</button>
     </div>
 
-    <!-- VIEW: GIVE FEEDBACK (FEEDBACK) --------------------------------------- -->
+    <!-- VIEW: GIVE FEEDBACK --------------------------------------- -->
     <div id="view__givefeedback_selection" class="view">
         <div id="feedback_text"></div>
         <div id="feedback_selection"></div>
         <button id="give_feedback" style="display:none;" onclick="save_feedback(); return false;">Give feedback!</button>
         <button id="clear_feedback" style="display:none;" onclick="clear_feedback(); return false;">Clear the feedback!</button>
+    </div>
+    
+    <!-- VIEW:  FEEDBACK DONE. --------------------------------------- -->
+    <div id="view__givefeedback_done" class="view">
+        <div class="message success">
+        		Thank you for encouraging this kid!
+        </div>
     </div>
    
  </body>

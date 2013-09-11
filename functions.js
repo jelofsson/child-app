@@ -110,6 +110,7 @@ function select_feedback(e)
 	}
 	else
 	{
+		$('div#feedback_selection').html('');
 		$('button#give_feedback').show();
 	}
 };
@@ -126,7 +127,10 @@ function clear_feedback()
 // saving feedback:
 function save_feedback()
 {
-	set_feedback_to_image(imageFeedback,fbText);
+	if(set_feedback_to_image(imageFeedback,fbText))
+	{
+		show_view('givefeedback_done');
+	}
 }
 
 // <-----------------------OTHERS------------------------>
@@ -142,11 +146,6 @@ function readCookie(name)
     }
     return null;
 }
-
-
-
-
-
 
 
 
