@@ -63,6 +63,7 @@ function signin(usuario = null, pass = null) {//If I call the function signin() 
 function get_feedback_list(type)
 {
 	$('div#waiting').html("<img src ='images/ajax.gif' />");
+	$('div#feedback_selection').css('visibility', 'hidden');
 	$.post("http://puertosur.com.ar/Martin/HI-kidsapp/feedback_list.php", { type: type }).done(function(data) 
 	{
 		if(typeof data.list != null)
@@ -81,16 +82,20 @@ function get_feedback_list(type)
 				$(li_item).html(a_item);
 				ul_list.appendChild(li_item);
 			}
+			$('div#waiting').html("");
 			$('div#feedback_selection').html( ul_list );
+			$('div#feedback_selection').css('visibility', 'visible');
 		}
 		else
 		{
 			$('div#feedback_selection').html('');
+			$('div#feedback_selection').css('visibility', 'visible');
 			$('div#waiting').html("Ops! something went wrong!");
 			return false;
 		}
 	});
 }
+
 // SAVE FEEDBACK TO LIST:
 function set_feedback_to_image(image,text)
 {
