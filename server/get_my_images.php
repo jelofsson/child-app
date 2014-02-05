@@ -5,7 +5,10 @@
 	header('Access-Control-Allow-Methods: GET, POST'); 
 	header('Content-type: text/json'); 
 	header('Content-type: application/json');
-	
+
+	include ("inc/const.php");
+	include ("inc/functions.php");
+
 	// CHECK THAT WE ARE OK:
 	if( ! isset($_POST['user']) && ! isset($_GET['user']) )
 	{
@@ -20,7 +23,7 @@
 	{
 		$user = (isset($_POST['user'])) ? $_POST['user'] : $_GET['user'];	
 	}
-	
+
 	// OK .. GO !	
 	$list = Array();	
 	$sql = "SELECT * FROM pictures WHERE usuario = '{$user}'"; // SQL 
