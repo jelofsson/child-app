@@ -1,5 +1,6 @@
 <?php
-
+	include ("inc/const.php");
+	include ("inc/functions.php");
 	// HEADER:s
 	header('Access-Control-Allow-Origin: *'); 
 	header('Access-Control-Allow-Methods: GET, POST'); 

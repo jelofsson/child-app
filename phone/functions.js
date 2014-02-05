@@ -1,3 +1,13 @@
+// <-----------------ON APPLICATION LOADED--------------------->
+var usuario = "";
+var status = "";
+var fbType = 0;
+var fbText = "";
+var fbPicture = "";
+$(document).ready(function () 
+{	
+	show_view('signin'); // Show the startup view.
+});
 // <-----------------------PHONEGAP---------------------->
 
 // Wait for PhoneGap to load
@@ -14,11 +24,11 @@ function getImage() {
     navigator.camera.getPicture(uploadPhoto, function(message) {
     alert('get picture failed');
 },{
-    quality: 50, 
+    quality: 70, 
     destinationType: navigator.camera.DestinationType.FILE_URI,
     sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-    targetWidth: 100,
-    targetHeight: 100
+    targetWidth: 400,
+    targetHeight: 400
 }
     );
 
@@ -29,10 +39,10 @@ function captureImage() {
     navigator.camera.getPicture(uploadPhoto, function(message) {
     alert('capture picture failed');
 },{
-    quality: 50, 
+    quality: 70, 
     destinationType: navigator.camera.DestinationType.FILE_URI,
-    targetWidth: 100,
-    targetHeight: 100
+    targetWidth: 400,
+    targetHeight: 400
 }
     );
 
@@ -57,15 +67,21 @@ function uploadPhoto(imageURI) {
     //FileTransfer() object allows you to upload or download files to and from a server.
     var ft = new FileTransfer();
     //If you want to upload set ft.upload, it has 5 parameters.
-    ft.upload(imageURI, "http://puertosur.com.ar/Martin/HI-kidsapp/upload.php", win, fail, options);//Put your php file that changes the image to an other folder
+    //CUANDO ANDEN LAS COOKIES BORRAR MARTIN Y PONER EL USUARIO DE LA COOKIE.
+    ft.upload(imageURI, server_host + "upload.php?usuario="+$('input#usuario').val(), win, fail, options);//Put your php file that changes the image to an other folder
+    var show_picture = document.getElementById("show_picture");
+    show_picture.src = imageURI;
 }
 
 //If uploadPhoto has succeed.
 function win(r) {
+	show_view('picture_uploaded');
+	/*
     console.log("Code = " + r.responseCode);
     console.log("Response = " + r.response);
     console.log("Sent = " + r.bytesSent);
     alert(r.response);
+    */
 }
 
 ////If uploadPhoto has failed.
@@ -73,33 +89,55 @@ function fail(error) {
     alert("An error has occurred: Code = " + error.code);
 }
 
-// <-----------------------JQUERY------------------------>
+//VIBRATES FOR HALF SECOND
+//function vibrate() {
+  //  navigator.notification.vibrate(500);
+//}
 
-// Handling the different views:
+// <----------- Handling the different views (JQUERY) ----------->
 function show_view(name)
 {
+	 console.log('usuario='+usuario);
+	 $('#waiting,#error').hide();
     $('.view').hide(); // Show the startup view.
     $('#view__' + name).show(); // Show the startup view.
+    // -- Check for certain view functions: ----------------------
+		switch (name){
+			case "signin":
+				$.removeCookie('usuario');
+				$.removeCookie('pass');
+				$.removeCookie('status'); 
+			break;
+			case "givefeedback_start":
+				imageFeedback();
+				setTimeout(clear_feedback(),1500);
+			break;
+			case "givefeedback_selection":
+				get_feedback_list( fbType );
+			break;
+			case "my_images":
+				viewImages($('input#usuario').val());
+			break;
+		}
+    // -----------------------------------------------------------
 }
-
-
-// Feedback, selecting a feedback text-string:
+// <--------- Feedback, selecting a feedback text-string: --------->
 function select_feedback(e)
 {
-	fbType = fbType + 1;
-	fbText = fbText + $(e).html()+' ';
-	$('div#feedback_text').html(fbText);
-	if(fbType<4)
-	{
-		$('div#feedback_text').html(fbText + '..');
-		get_feedback_list( fbType );
-		$('button#clear_feedback').show();
-	}
-	else
-	{
-		$('div#feedback_selection').html('');
-		$('button#give_feedback').show();
-	}
+    fbType = fbType + 1;
+    fbText = fbText + $(e).html()+' ';
+    $('div#feedback_text').html(fbText);
+    if(fbType<4)
+    {
+        $('div#feedback_text').html(fbText + '..');
+        get_feedback_list( fbType );
+        $('button#clear_feedback').show();
+    }
+    else
+    {
+        $('div#feedback_selection').html('');
+        $('button#give_feedback').show();
+    }
 };
 // clear feedback:
 function clear_feedback()
@@ -111,84 +149,7 @@ function clear_feedback()
 	$('button#clear_feedback').hide();
 	$('button#give_feedback').hide();
 }
-// saving feedback:
-function save_feedback()
-{
-	if(set_feedback_to_image(imageFeedback,fbText))
-	{
-		show_view('givefeedback_done');
-	}
-}
-
-
-function viewImages()
-{
-	$.post("http://puertosur.com.ar/Martin/HI-kidsapp/set_feedback_to_image.php", { user: null }).done(function(data) 
-	{
-		$('div#view__my_images').html('');
-		if( data.success == "true" )
-		{
-			for(i in data.result)
-			{
-				div_item = document.createElement('div');
-				$(div_item).addClass('image_container');
-				
-				img_item = document.createElement('img');
-				$(img_item).addClass('image');			
-				$(img_item).attr('src', data.result[i].location);
-				div_item.appendChild(img_item);
-				
-				if(data.result[i].feedback.length > 0)
-				{
-					span_item = document.createElement('span');
-					$(span_item).html(data.result[i].feedback);
-					div_item.appendChild(span_item);
-					$(div_item).addClass('has_feedback');
-				}
-				$('div#view__my_images').append(div_item);
-			}
-		}
-		else
-		{
-			$('div#view__my_images').html(data.error);
-		}
-	});
-}
-
-// <-----------------ON APPLICATION LOADED--------------------->
-var usuario = readCookie('usuario');
-var pass = readCookie('pass');
-var status = readCookie('status');
-var fbType = 0;
-var fbText = "";
-$(document).ready(function () 
-{	
-	if(usuario != null && pass != null) signin(usuario, pass);
-	else show_view('signin'); // Show the startup view.
-	
-	// Initiate feedback..	
-	get_feedback_list( fbType );
-});
 // <-----------------------OTHERS------------------------>
-function readCookie(name) 
-{
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) 
-    {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-
-
-
-
-
-
 
 
 
