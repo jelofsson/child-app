@@ -17,7 +17,7 @@ We want the kids to have a better school-system where they can teach together an
 
 Developed by
 ---------------
-- [Jimmi Elofssson] (http://www.jelofsson.se/) - MDD14 Karlskrona
+- [Jimmi Elofsson] (http://www.jelofsson.se/) - MDD14 Karlskrona
 - [Martin Haiek] (https://www.facebook.com/martin.haiek) - MDD14 Karlskrona
 - [Sandra Mircevska] (https://www.facebook.com/sandra.mircevska) - MDD14 Karlskrona
 - [Danai Fessahaie] (https://www.facebook.com/danai.fessahaie) - MDD14 Karlskrona
