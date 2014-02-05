@@ -1,84 +1,23 @@
-JQUERY READ COOKIE
-==================
+Kid:s App
+=========
 
-## Usage
+Kid:s App is made with the use of phonegap and cordova.js, it is a so called webapp.
+The application has one mobile-client and also a server-side with a mysql-database setup.
 
-Create session cookie:
+The application will work like this...
+--------------------------------------
+The kid draws a picture on a real paper, he can then take a photo of this picture and post it to the application, 
+The picture will then get sent to one of the volonteers who gives feedbacks to the user that did draw the picture, finally the user will get a feedback posted back to him or her.
+This will then spark confidence to the user kid, making him or her want to draw or do more stuff and to trust his or hers creative side!
 
-    $.cookie('the_cookie', 'the_value');
+![This is a student project.](/hyper_island-student_project_white.jpg)
 
-Create expiring cookie, 7 days from then:
+Our idea is to improve the school-system for children in the ages between 6-11.
+We want the kids to have a better school-system where they can teach together and also each others, we want to turn the school to a nice &amp; fun place where the kids can exchange ideas and keep their creativity!
 
-    $.cookie('the_cookie', 'the_value', { expires: 7 });
-
-Create expiring cookie, valid across entire site:
-
-    $.cookie('the_cookie', 'the_value', { expires: 7, path: '/' });
-
-Read cookie:
-
-    $.cookie('the_cookie'); // => "the_value"
-    $.cookie('not_existing'); // => null
-
-Read all available cookies:
-
-    $.cookie(); // => { "the_cookie": "the_value", "...remaining": "cookies" }
-
-Delete cookie:
-
-    // Returns true when cookie was found, false when no cookie was found...
-    $.removeCookie('the_cookie');
-
-    // Same path as when the cookie was written...
-    $.removeCookie('the_cookie', { path: '/' });
-
-*Note: when deleting a cookie, you must pass the exact same path, domain and secure options that were used to set the cookie, unless you're relying on the default options that is.*
-
-PHONEGAP NOTIFICATION:
-======================
-
-http://docs.phonegap.com/en/1.8.1/cordova_notification_notification.md.html
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Notification Example</title>
-
-    <script type="text/javascript" charset="utf-8" src="cordova-1.8.1.js"></script>
-    <script type="text/javascript" charset="utf-8">
-
-    // Wait for Cordova to load
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // Cordova is ready
-    //
-    function onDeviceReady() {
-        // Empty
-    }
-
-    // alert dialog dismissed
-    function alertDismissed() {
-        // do something
-    }
-
-    // Show a custom alert
-    //
-    function showAlert() {
-        navigator.notification.alert(
-            'You are the winner!',  // message
-            alertDismissed,         // callback
-            'Game Over',            // title
-            'Done'                  // buttonName
-        );
-    }
-
-    </script>
-  </head>
-  <body>
-    <p><a href="#" onclick="showAlert(); return false;">Show Alert</a></p>
-  </body>
-</html>
-
-
-
+Developed by
+---------------
+- [Jimmi Elofssson] (http://www.jelofsson.se/) - MDD14 Karlskrona
+- [Martin Haiek] (https://www.facebook.com/martin.haiek) - MDD14 Karlskrona
+- [Sandra Mircevska] (https://www.facebook.com/sandra.mircevska) - MDD14 Karlskrona
+- [Danai Fessahaie] (https://www.facebook.com/danai.fessahaie) - MDD14 Karlskrona
